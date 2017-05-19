@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# If first parameter not set
+if [[ -z "$1" || -z "$2" || -z "$3" ]] 
+	then
+	echo "USAGE: $0 [INSTALL DIR] [TARGET FILE] [IDE NAME]"
+	exit
+fi
+
+if [[ "$1" == "$2" ]]
+	then
+	echo "Both parameters are the same!"
+	exit
+fi
+
+if [[ ! -d "$1" ]]
+	then
+	echo "Directory $1 doesn't exists"
+	echo "Do you want to create $1? y/n"
+
+	read choice
+
+	if [[ "$choice" == "y" ]]
+		then
+
+		mkdir "$1" 2>/dev/null
+
+		if [[ "$?" == 1 ]]
+			then
+			echo "Something went wrong, the directoy wasn't created"
+			echo "Maybe try running as root?"
+			exit
+		fi
+	else
+		exit
+
+	fi
+fi
+
+chmod 777 "$1"
+
+echo "Copying files..."
+
+cp "$2" "$1"
+
+cd "$1"
+
+echo "Extracting package..."
+tar -xf "$2"
+rm "$2"
+cd `ls | head -n1`
+
+bin/$3.sh
