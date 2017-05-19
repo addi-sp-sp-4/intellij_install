@@ -50,5 +50,16 @@ tar -xf "$2"
 rm "$2"
 cd `ls | head -n1`
 
+echo "Do you want to create a symlink to one of your PATH dirs? y/n"
+read option
+
+if [[ "$option" == "y" ]]
+	then
+	echo "to where?"
+	read option
+
+	ln -s `readlink -f bin/$3.sh` "$option"
+fi
+
 bin/$3.sh &
 echo "Install completed"
