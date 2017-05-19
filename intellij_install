@@ -50,4 +50,5 @@ tar -xf "$2"
 rm "$2"
 cd `ls | head -n1`
 
-bin/$3.sh
+bin/$3.sh &
+echo "Install completed"
